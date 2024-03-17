@@ -19,8 +19,7 @@ public class MsgController {
     @GetMapping
     public ResponseEntity<String> getAsd() {
         try {
-            String response = requestService.getTranslation("hello this is a test", "en", "ru");
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.ok().body("ok gud");
         }
         catch(Exception e) {
             return ResponseEntity.badRequest().body("not gud :( \n" +e.toString());

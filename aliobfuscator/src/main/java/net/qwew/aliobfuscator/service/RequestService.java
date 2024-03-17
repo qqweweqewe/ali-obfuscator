@@ -16,44 +16,61 @@ import com.google.gson.Gson;
 @Service
 public class RequestService {
         
+    //Api URI
     private final String url;
 
+    //RestTemplate for processing requests and responses
     private final RestTemplate restTemplate;
+
+    //common headers for most requests
+    private final HttpHeaders headers;
+
 
     public RequestService(RestTemplateBuilder restTemplateBuilder) {
 
         //LibreTranslate instance deployed on a cloud server
-        this.url = "http://cubercube.ru:5000/translate";
-        restTemplate = restTemplateBuilder.build();
+        this.url = "http://cubercube.ru:5000/";
+        this.restTemplate = restTemplateBuilder.build();
+
+        //common headers
+        this.headers = new HttpHeaders();
+        //set `content-type` header
+        this.headers.setContentType(MediaType.APPLICATION_JSON);
+        //set `accept` header
+        this.headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     }
 
     public String getTranslation(String msg, String source, String target) {
-        
-        //create headers
-        HttpHeaders headers = new HttpHeaders();
-        //set `content-type` header
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        //set `accept` header
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        Gson gson = new Gson();
-        Map<String, Object> map = new HashMap<>();
 
         //prompt itself
-        map.put("q", msg);
-        map.put("source", source);
-        map.put("target", target);
-        map.put("format", "text");
-
-        String jsonBody = gson.toJson(map);
+        Map<String, Object> body = new HashMap<>();
         
+        body.put("q", msg);
+        body.put("source", source);
+        body.put("target", target);
+        body.put("format", "text");
+
         //building a request
-        HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, this.headers);
         
         //returning a response body
-        String response = this.restTemplate.postForObject(url, entity, String.class);
-        System.out.println(response);
+        String response = this.restTemplate.postForObject(url+"translate", entity, String.class);
+        
         return response;
      }
 
+    public String detectSourceLang(String msg) {
+        
+        //prompt itself
+        Map<String, Object> body = new HashMap<>();
+        body.put("q", msg);
+
+        //building a request
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, this.headers);
+        
+        //returning a response body
+        String response = this.restTemplate.postForObject(url+"translate", entity, String.class);
+        
+        return response;  
+    }     
 }
