@@ -9,13 +9,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class AliObfuscatorBot extends TelegramLongPollingBot {
 
-    public AliObfuscatorBot(String token) {
-        super(new DefaultBotOptions(), token);
+    public AliObfuscatorBot() {
+        super(new DefaultBotOptions(), AliBotToken.token);
     }
 
     @Override
     public String getBotToken() {
-        return AliBotApiKey.key;
+        return AliBotToken.token;
     }
 
     @Override
