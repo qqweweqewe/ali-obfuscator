@@ -11,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-
 @Service
 public class RequestService {
         
@@ -69,8 +67,9 @@ public class RequestService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, this.headers);
         
         //returning a response body
-        String response = this.restTemplate.postForObject(url+"translate", entity, String.class);
+        String response = this.restTemplate.postForObject(url+"detect", entity, String.class);
         
-        return response;  
+        //returns an array of 1 object for some reason so i need to crop it
+        return response.substring(1, response.length()-2);  
     }     
 }
