@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Bot API key
+./app/src/main/java/net/qwew/AliBotApiKey.java
