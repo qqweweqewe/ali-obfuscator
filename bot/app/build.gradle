@@ -27,6 +27,7 @@ dependencies {
 
     // main dependency that holds it all together
     implementation 'org.telegram:telegrambots:6.9.7.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -38,8 +39,9 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'net.qwew.AliObfuscatorBot'
+    mainClass = 'net.qwew.BotRunner'
 }
+
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
